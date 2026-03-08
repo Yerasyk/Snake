@@ -20,7 +20,6 @@ private:
 	Pos food;
 	Dir pendingDir;
 	int score = 0;
-	int ticks = 0;
 	std::uniform_int_distribution<> rand_x;
 	std::uniform_int_distribution<> rand_y;
 	bool gameOver = false;
@@ -30,5 +29,6 @@ public:
 	void Update(Key key) override;
 	void Render(Renderer&) override;
 	void Init() override;
+	void Reset() override;
 	bool IsRunning() const override { return !gameOver; };
 };
