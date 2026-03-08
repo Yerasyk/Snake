@@ -7,5 +7,6 @@ enum class Key
 	Down,
 	Left,
 	Right,
-	Quit
+	Quit,
+	Restart
 };

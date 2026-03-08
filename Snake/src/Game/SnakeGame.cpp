@@ -23,7 +23,16 @@ SnakeGame::SnakeGame(int width, int height): board(width, height), snake(Pos{5,5
 
 void SnakeGame::Init()
 {
-	std::cout << "Initializing Snake Game..." << std::endl;
+	gameOver = false;
+	score = 0;
+}
+
+void SnakeGame::Reset() {
+	
+	snake = Snake(Pos{ 5,5 });
+	pendingDir = Dir::Right;
+	score = 0;
+	gameOver = false;
 }
 
 void SnakeGame::SpawnFood() {
@@ -63,7 +72,6 @@ void SnakeGame::Update(Key key)
 	}
 
 	snake.Step(grow);
-	ticks++;
 }
 
 void SnakeGame::Render(Renderer& renderer)
@@ -106,6 +114,11 @@ void SnakeGame::Render(Renderer& renderer)
 	int score_y = play_area_top_y + board_h + 1;
 	std::string scoreStr = "Score: " + std::to_string(score);
 	renderer.DrawString(start_x, score_y, scoreStr);
+
+	//Game Over
+	if (gameOver) {
+		renderer.DrawGameOver(score_y+2);
+	}
 
 	renderer.Display();
 }

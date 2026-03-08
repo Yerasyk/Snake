@@ -5,7 +5,7 @@
 #include <iostream>
 #include <chrono> // For timing
 #include <thread> // For sleep_for
-#include <conio.h> // For _kbhit() -- get last pressed key; and _getch() -- get the key
+#include <conio.h> // For _kbhit(), _getch()
 
 using SteadyClock = std::chrono::steady_clock;
 
@@ -19,6 +19,7 @@ namespace {
 			case 'a': return Key::Left;
 			case 'd': return Key::Right;
 			case 'q': return Key::Quit;
+			case 'r': return Key::Restart;
 			}
 		}
 		return Key::None;
@@ -43,25 +44,33 @@ void Engine::Run(Game& game, Renderer& renderer)
 	while (true)
 	{	
 		if (!game.IsRunning()) {
-			std::cout << "===========================" << std::endl;
-			std::cout << "        GAME OVER          " << std::endl;
-			std::cout << "===========================" << std::endl;
-			break;
+			char key = _getch();
+			if (key == 'r')
+			{
+				game.Reset();
+				tickStart = SteadyClock::now();
+				continue;
+			}
+			if (key == 'q') return;
+			continue;
 		}
-
+		
+		//Gmae is Running
 		auto elapsed = SteadyClock::now() - tickStart;
-		if (elapsed>=tickDuration) {
+		if (elapsed >= tickDuration) {
 			Key key = GetInput();
+			if (key == Key::Restart) game.Reset();
 			if (key == Key::Quit) break;
 			game.Update(key);
 			game.Render(renderer);
-			tickStart +=tickDuration;
+			tickStart += tickDuration;
 			steps++;
 		}
 		else {
 			auto remainingTime = tickDuration - elapsed;
 			std::this_thread::sleep_for(remainingTime);
 		}
+
 	}
 }
 
@@ -73,10 +82,9 @@ int main()
 	Engine engine;
 	SnakeGame game;
 	// w + 4 - for side walls and gaps
-	// h + 6 - for side walls, title and score
-	ConsoleRenderer renderer(w+4, h+6);
+	// h + 6 - for side walls(2), title(2), score(1), gameover (5)
+	ConsoleRenderer renderer(w+4, h+10);
 	engine.Run(game, renderer);
 	
-	std::cin.get();
 	return 0;
 }

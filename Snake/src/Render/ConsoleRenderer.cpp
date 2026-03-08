@@ -22,11 +22,20 @@ void ConsoleRenderer::DrawString(int x, int y, const std::string& text) {
     }
 }
 
+void ConsoleRenderer::DrawGameOver(int y) {
+ 
+    DrawString(0, y, "============================");
+    DrawString(0, y + 1, "       GAME OVER          ");
+    DrawString(0, y + 2, "============================");
+    DrawString(0, y + 3, "+ Press R to restart");
+    DrawString(0, y + 4, "+ Press Q to quit");
+}
+
 void ConsoleRenderer::Display() {
     printf("\033[H");
     
-    // 2. Build a single string to print everything at once
     std::string output = "";
+    // 2. Build a single string to print everything at once
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             output += buffer[y * width + x];
