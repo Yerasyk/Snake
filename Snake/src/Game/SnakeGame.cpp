@@ -32,6 +32,7 @@ void SnakeGame::Reset() {
 	snake = Snake(Pos{ 5,5 });
 	pendingDir = Dir::Right;
 	score = 0;
+	SpawnFood();
 	gameOver = false;
 }
 
