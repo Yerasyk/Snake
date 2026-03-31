@@ -5,11 +5,11 @@
 struct SDL_Window;
 struct SDL_Renderer;
 
-class SDLRenderer : public Renderer
+class UIRenderer : public Renderer
 {
 public:
-	SDLRenderer(int width, int height, int cellSize);
-	~SDLRenderer() override;
+	UIRenderer(int width, int height, int cellSize);
+	~UIRenderer() override;
 
 	void Clear() override;
 	void Display() override;

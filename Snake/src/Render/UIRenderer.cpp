@@ -1,8 +1,8 @@
-#include "SDLRenderer.h"
+#include "UIRenderer.h"
 #include <SDL3/SDL.h>
 #include <stdexcept>
 
-SDLRenderer::SDLRenderer(int width, int height, int cellSize) : 
+UIRenderer::UIRenderer(int width, int height, int cellSize) : 
 	windowWidth(width), windowHeight(height), cellSize(cellSize)
 {
 	window = SDL_CreateWindow(
@@ -23,23 +23,23 @@ SDLRenderer::SDLRenderer(int width, int height, int cellSize) :
 	}
 }
 
-SDLRenderer::~SDLRenderer() {
+UIRenderer::~UIRenderer() {
 	if(renderer) SDL_DestroyRenderer(renderer);
 	if(window) SDL_DestroyWindow(window);
 }
 
-void SDLRenderer::Clear()
+void UIRenderer::Clear()
 {
 	SDL_SetRenderDrawColor(renderer, 120, 120, 255, 255);
 	SDL_RenderClear(renderer);
 }
 
-void SDLRenderer::Display()
+void UIRenderer::Display()
 {
 	SDL_RenderPresent(renderer);
 }
 
-void SDLRenderer::Draw(int x, int y, char symbol)
+void UIRenderer::Draw(int x, int y, char symbol)
 {
 	SDL_FRect rect = { x * cellSize, y * cellSize, cellSize, cellSize };
 	switch (symbol) {
@@ -62,11 +62,11 @@ void SDLRenderer::Draw(int x, int y, char symbol)
 	SDL_RenderFillRect(renderer, &rect);
 }
 
-void SDLRenderer::DrawString(int x, int y, const std::string& text)
+void UIRenderer::DrawString(int x, int y, const std::string& text)
 {
 }
 
-void SDLRenderer::DrawGameOver(int y)
+void UIRenderer::DrawGameOver(int y)
 {
 
 }
