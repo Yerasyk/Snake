@@ -2,7 +2,7 @@
 
 #include "Render/ConsoleRenderer.h"
 // Engine Input
-#include "Engine/Input.h"
+#include "Engine/Input/Input.h"
 
 #include <iostream>
 #include <random>

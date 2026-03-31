@@ -2,6 +2,14 @@
 #include <SDL3/SDL.h>
 #include <stdexcept>
 
+enum class CellType {
+	Wall,
+	Head,
+	Body,
+	Food,
+	Empty
+};
+
 UIRenderer::UIRenderer(int width, int height, int cellSize) : 
 	windowWidth(width), windowHeight(height), cellSize(cellSize)
 {
