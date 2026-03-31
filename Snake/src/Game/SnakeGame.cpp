@@ -46,18 +46,23 @@ void SnakeGame::SpawnFood() {
 	food = f;
 }
 
-void SnakeGame::Update(Key key)
-{
-	bool grow = false;
+void SnakeGame::HandleInput(Key key) {
 	// Set new direction
 	switch (key) {
-	//case Key::Down: pendingDir = Dir::Down; std::cout << "Down" << std::endl; break;
+		//case Key::Down: pendingDir = Dir::Down; std::cout << "Down" << std::endl; break;
 	case Key::Down: pendingDir = Dir::Down; break;
 	case Key::Left: pendingDir = Dir::Left; break;
 	case Key::Right: pendingDir = Dir::Right; break;
 	case Key::Up: pendingDir = Dir::Up; break;
-	case Key::None: break;
+	case Key::Restart: Reset();
+	default:;
 	}
+}
+
+void SnakeGame::Update()
+{
+	bool grow = false;
+	
 	snake.SetDirection(pendingDir);
 
 	// Check collisions

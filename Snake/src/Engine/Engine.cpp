@@ -38,7 +38,8 @@ void Engine::Run(Game& game, Renderer& renderer)
 {
 	const int UPS = 5;
 	const auto tickDuration = std::chrono::milliseconds(1000 / UPS);
-	auto tickStart = SteadyClock::now();
+	auto lastTime = SteadyClock::now();
+	auto accumulator = std::chrono::nanoseconds(0);
 	SDL_Event event;
 	Key key;
 
@@ -46,34 +47,41 @@ void Engine::Run(Game& game, Renderer& renderer)
 
 	while (true)
 	{	
-		key = Key::None;
-
 		// Input Handling
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_EVENT_KEY_DOWN) key = GetInput(event.key.key);
 			if (event.type == SDL_EVENT_QUIT || key == Key::Quit) return;
 			if (key == Key::Restart)
 			{
-				game.Reset();
-				tickStart = SteadyClock::now();
+				game.HandleInput(Key::Restart);
+				lastTime = SteadyClock::now();
 				continue;
 			}
 		}		
 
+		if (key != Key::None) {
+			game.HandleInput(key);
+		}
+
 		// Game Update
-		auto elapsed = SteadyClock::now() - tickStart;
-		if (elapsed >= tickDuration) {
+		auto now = SteadyClock::now();
+		auto delta = now - lastTime;
+		lastTime = now;
+
+		accumulator += delta;
+
+		while (accumulator >= tickDuration) {
 			if (game.IsRunning()) {
-				game.Update(key);
+				game.Update();
 			}
 
-			tickStart += tickDuration;
+			accumulator -= tickDuration;
 		}
 
 		//Rendering
 		game.Render(renderer);
 		
-		//Sleep 
+		//Sleep (needs for Rendering frames; later might be adjusted)
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
 }
@@ -95,8 +103,8 @@ int main()
 	// h + 6 - for side walls(2), title(2), score(1), gameover (5)
 
 	// Renderers
-	//ConsoleRenderer renderer(w + 4, h + 10);
-	UIRenderer renderer(w + 4, h + 10, 32);
+	ConsoleRenderer renderer(w + 4, h + 10);
+	//UIRenderer renderer(w + 4, h + 10, 32);
 
 	engine.Run(game, renderer);
 	

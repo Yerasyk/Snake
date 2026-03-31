@@ -26,9 +26,10 @@ private:
 	void SpawnFood();
 public:
 	SnakeGame(int w= 20, int h=10);
-	void Update(Key key) override;
+	void Update() override;
 	void Render(Renderer&) override;
 	void Init() override;
 	void Reset() override;
+	void HandleInput(Key key) override;
 	bool IsRunning() const override { return !gameOver; };
 };
