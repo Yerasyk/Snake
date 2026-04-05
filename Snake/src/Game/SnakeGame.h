@@ -8,6 +8,7 @@
 #include "Domain/Snake.h"
 
 #include <random>
+#include <queue>
 
 enum class Key;
 class Renderer;
@@ -20,15 +21,17 @@ private:
 	Pos food;
 	Dir pendingDir;
 	int score = 0;
+	std::queue<Key> inputs;
 	std::uniform_int_distribution<> rand_x;
 	std::uniform_int_distribution<> rand_y;
 	bool gameOver = false;
 	void SpawnFood();
 public:
 	SnakeGame(int w= 20, int h=10);
-	void Update(Key key) override;
+	void Update() override;
 	void Render(Renderer&) override;
 	void Init() override;
 	void Reset() override;
+	void HandleInput(Key key) override;
 	bool IsRunning() const override { return !gameOver; };
 };

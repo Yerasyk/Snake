@@ -11,3 +11,6 @@ Intermediates/
 **.vcxproj.user
 **.csproj
 
+# vcpkg
+vcpkg_installed/
+

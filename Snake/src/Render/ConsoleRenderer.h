@@ -12,10 +12,11 @@ private:
 		
 public:
 	ConsoleRenderer(int width, int height);
+	~ConsoleRenderer();
 	void Clear() override;
 	void Display() override;
-	void DrawGameOver(int y) override;
-	void Draw(int x, int y, char symbol) override;
+	void DrawCell(int x, int y, CellType cell) override;
+	void DrawChar(int x, int y, char symbol) override;
 	void DrawString(int x, int y, const std::string& text) override;
 };
 
