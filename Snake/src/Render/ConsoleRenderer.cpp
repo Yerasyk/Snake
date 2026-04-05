@@ -17,6 +17,11 @@ namespace {
 
 ConsoleRenderer::ConsoleRenderer(int w, int h) : width(w), height(h){
 	buffer.resize(width * height, ' ');
+    std::cout << "\033[?25l"; // hide cursor
+}
+
+ConsoleRenderer::~ConsoleRenderer() {
+    std::cout << "\033[?25l"; // show cursor
 }
 
 void ConsoleRenderer::Clear() {
@@ -54,5 +59,6 @@ void ConsoleRenderer::Display() {
         }
         output += '\n'; // End of row
     }
-    std::cout << output;
+    //std::cout << output;
+    std::cout << output << std::flush;
 };

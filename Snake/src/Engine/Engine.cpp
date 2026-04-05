@@ -2,7 +2,7 @@
 #include "Game/SnakeGame.h"
 //Renderers
 #include "Render/ConsoleRenderer.h"
-#include "Render/UIRenderer.h"
+#include "Render/GUIRenderer.h"
 //Inputs
 #include "Input/SDLInput.h"
 #include "Input/ConsoleInput.h"
@@ -25,7 +25,7 @@ Engine::~Engine()
 
 void Engine::Run(Game& game, Renderer& renderer, InputSystem& input)
 {
-	const int UPS = 5;
+	const int UPS = 7;
 	const auto tickDuration = std::chrono::milliseconds(1000 / UPS);
 	auto lastTime = SteadyClock::now();
 	auto accumulator = std::chrono::nanoseconds(0);
@@ -64,31 +64,36 @@ void Engine::Run(Game& game, Renderer& renderer, InputSystem& input)
 	}
 }
 
+#define USE_SDL 0
 
 int main()
 {
-
-	//if (!SDL_Init(SDL_INIT_VIDEO)) {
-	//	std::cerr << "SDL_Init failed: " << SDL_GetError() << "\n";
-	//	return 1;
-	//}
-
-	int w=20, h=10;
-
-	Engine engine;
-	SnakeGame game;
-	
 	// w + 4 - for side walls and gaps
 	// h + 6 - for side walls(2), title(2), score(1), gameover (5)
 
-	// Renderers
-	ConsoleRenderer renderer(w + 4, h + 10);
-	//UIRenderer renderer(w + 4, h + 10, 32);
+#if USE_SDL
+	int w=30, h=30;
+	if (!SDL_Init(SDL_INIT_VIDEO)) {
+		std::cerr << "SDL_Init failed: " << SDL_GetError() << "\n";
+		return 1;
+	}
 
-	//Input
+	GUIRenderer renderer(w + 4, h + 10, 16);
+	SDLInput input;
+#else
+	int w = 30, h = 18;
+	ConsoleRenderer renderer(w + 4, h + 10);
 	ConsoleInput input;
+#endif
+
+	Engine engine;
+	SnakeGame game (w,h);
 
 	engine.Run(game, renderer, input);
-	
+
+#if USE_SDL
+	SDL_Quit();
+#endif
+
 	return 0;
 }

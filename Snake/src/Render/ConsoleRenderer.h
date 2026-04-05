@@ -12,6 +12,7 @@ private:
 		
 public:
 	ConsoleRenderer(int width, int height);
+	~ConsoleRenderer();
 	void Clear() override;
 	void Display() override;
 	void DrawCell(int x, int y, CellType cell) override;

@@ -123,11 +123,11 @@ void SnakeGame::Render(Renderer& renderer)
 
 	//Game Over
 	if (gameOver) {
-		renderer.DrawString(0, score_y, "============================");
-		renderer.DrawString(0, score_y + 1, "       GAME OVER          ");
-		renderer.DrawString(0, score_y + 2, "============================");
-		renderer.DrawString(0, score_y + 3, "+ Press R to restart");
-		renderer.DrawString(0, score_y + 4, "+ Press Q to quit");
+		renderer.DrawString(start_x, score_y+1, "============================");
+		renderer.DrawString(start_x, score_y + 2, "       GAME OVER          ");
+		renderer.DrawString(start_x, score_y + 3, "============================");
+		renderer.DrawString(start_x, score_y + 4, "+ Press R to restart");
+		renderer.DrawString(start_x, score_y + 5, "+ Press Q to quit");
 	}
 
 	renderer.Display();
