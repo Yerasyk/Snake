@@ -64,7 +64,7 @@ void Engine::Run(Game& game, Renderer& renderer, InputSystem& input)
 	}
 }
 
-#define USE_SDL 0
+#define USE_SDL 1
 
 int main()
 {
