@@ -8,6 +8,7 @@
 #include "Domain/Snake.h"
 
 #include <random>
+#include <queue>
 
 enum class Key;
 class Renderer;
@@ -20,6 +21,7 @@ private:
 	Pos food;
 	Dir pendingDir;
 	int score = 0;
+	std::queue<Key> inputs;
 	std::uniform_int_distribution<> rand_x;
 	std::uniform_int_distribution<> rand_y;
 	bool gameOver = false;

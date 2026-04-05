@@ -97,24 +97,24 @@ void SnakeGame::Render(Renderer& renderer)
 
 	//Draw horizontals
 	for (int i = -1; i <= board_w; i++) { // 2 walls
-		renderer.Draw(i + start_x, play_area_top_y-1, 'X');
-		renderer.Draw(i + start_x, board_h+play_area_top_y, 'X');
+		renderer.DrawCell(i + start_x, play_area_top_y-1, CellType::Wall);
+		renderer.DrawCell(i + start_x, board_h+play_area_top_y, CellType::Wall);
 	}
 
 	//Draw verticals 
 	for (int i = 0; i < board_h; i++) { // 2 walls
-		renderer.Draw(start_x - 1, i + play_area_top_y, 'X');
-		renderer.Draw(start_x + board_w, i + play_area_top_y, 'X');
+		renderer.DrawCell(start_x - 1, i + play_area_top_y, CellType::Wall);
+		renderer.DrawCell(start_x + board_w, i + play_area_top_y, CellType::Wall);
 	}
 
 	//Draw food
-	renderer.Draw(food.x +start_x, food.y+ play_area_top_y, 'O');
+	renderer.DrawCell(food.x +start_x, food.y+ play_area_top_y, CellType::Food);
 
 	//Draw Snake body
 	for (const auto& segment : snake.getBody()) {
-		renderer.Draw(segment.x+start_x, segment.y+ play_area_top_y, '#');
+		renderer.DrawCell(segment.x+start_x, segment.y+ play_area_top_y, CellType::SnakeBody);
 	}
-	renderer.Draw(start_x + snake.Head().x, play_area_top_y + snake.Head().y, '@');
+	renderer.DrawCell(start_x + snake.Head().x, play_area_top_y + snake.Head().y, CellType::SnakeHead);
 	
 	//Score
 	int score_y = play_area_top_y + board_h + 1;
@@ -123,7 +123,11 @@ void SnakeGame::Render(Renderer& renderer)
 
 	//Game Over
 	if (gameOver) {
-		renderer.DrawGameOver(score_y+2);
+		renderer.DrawString(0, score_y, "============================");
+		renderer.DrawString(0, score_y + 1, "       GAME OVER          ");
+		renderer.DrawString(0, score_y + 2, "============================");
+		renderer.DrawString(0, score_y + 3, "+ Press R to restart");
+		renderer.DrawString(0, score_y + 4, "+ Press Q to quit");
 	}
 
 	renderer.Display();
