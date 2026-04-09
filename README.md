@@ -8,11 +8,11 @@ A Snake game built in C++ as a personal engine-architecture learning project. It
 
 **SDL Mode**
 
-<!-- insert SDL gif here -->
+![SDL_MODE](https://github.com/Yerasyk/Snake/blob/master/SDL-snake.gif)
 
 **Console Mode**
 
-<!-- insert Console gif here -->
+![CONSOLE_MODE](https://github.com/Yerasyk/Snake/blob/master/Console-snake.gif)
 
 ---
 
@@ -27,7 +27,7 @@ Engine
   └── InputSystem  (ConsoleInput / SDLInput)
 ```
 
-- **Engine** runs the game loop at a fixed 7 updates per second, handles timing, and wires the three layers together.
+- **Engine** runs the game loop at a fixed 7 updates per second (adjustable), handles timing, and wires the three layers together.
 - **Game** (`Game` interface → `SnakeGame`) owns all the rules: snake movement, food spawning, collision detection, scoring, and game-over state.
 - **Renderer** (`Renderer` interface) draws the board cell by cell. Swap `ConsoleRenderer` for `GUIRenderer` and the game looks completely different — the logic doesn't change.
 - **InputSystem** (`InputSystem` interface) translates raw key events into a shared `Key` enum. Console and SDL each have their own implementation.
